@@ -7,7 +7,7 @@ import totalImg from "../assets/total.svg";
 export function Summary() {
   return (
     <Grid templateColumns="repeat(3, 1fr)" w="100%" gap="2rem" mt="-24">
-      <Box w="100%" bg="white" padding="1.5rem 2rem" borderRadius="1">
+      <Box w="100%" bg="white" padding="1.5rem 2rem" borderRadius="4">
         <Flex as="header" align="center" justify="space-between">
           <Text>Entradas</Text>
           <Image src={incomeImg} alt="Entradas" />
@@ -22,7 +22,7 @@ export function Summary() {
           R$17,400.00
         </Text>
       </Box>
-      <Box w="100%" bg="white" padding="1.5rem 2rem" borderRadius="1">
+      <Box w="100%" bg="white" padding="1.5rem 2rem" borderRadius="4">
         <Flex as="header" align="center" justify="space-between">
           <Text>Saídas</Text>
           <Image src={outcomeImg} alt="Entradas" />
@@ -42,7 +42,7 @@ export function Summary() {
         bg="green.300"
         color="white"
         padding="1.5rem 2rem"
-        borderRadius="1"
+        borderRadius="4"
       >
         <Flex as="header" align="center" justify="space-between">
           <Text>Total</Text>
