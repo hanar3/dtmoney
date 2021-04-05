@@ -20,6 +20,7 @@ export function Header() {
           bg="blue.300"
           borderRadius="1"
           _hover={{ bg: "blue.300", filter: "brightness(0.9)" }}
+          _active={{ bg: "blue.300", filter: "brightness(0.9)" }}
         >
           Nova transação
         </Button>

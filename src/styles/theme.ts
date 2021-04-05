@@ -11,6 +11,9 @@ export default extendTheme({
   },
 
   colors: {
+    green: {
+      300: "#33CC95",
+    },
     red: {
       500: "#E52E4D",
     },
@@ -21,11 +24,13 @@ export default extendTheme({
   },
 
   styles: {
-    global: (props) => ({
-      bg: props.colorMode === "light" ? "#F0F0F5" : "gray.900",
-      button: {
-        cursor: "pointer",
+    global: {
+      body: {
+        bg: "#E5E5E5",
+        button: {
+          cursor: "pointer",
+        },
       },
-    }),
+    },
   },
 });
