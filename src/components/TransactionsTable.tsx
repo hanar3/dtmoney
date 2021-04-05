@@ -21,7 +21,6 @@ export function TransactionsTable() {
         const { data } = await api.get<{ transactions: ITransaction[] }>(
           "/transactions"
         );
-        console.log({ data });
         setTransactions(data.transactions);
       } catch (err) {
         console.log(err);
