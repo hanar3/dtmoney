@@ -7,7 +7,7 @@ interface ITransaction {
   id: number;
   title: string;
   type: "deposit" | "withdraw";
-  value: string;
+  amount: number;
   category: string;
   createdAt: string;
 }
@@ -18,8 +18,11 @@ export function TransactionsTable() {
   useEffect(() => {
     (async function () {
       try {
-        const { data } = await api.get<ITransaction[]>("/transactions");
-        setTransactions(data);
+        const { data } = await api.get<{ transactions: ITransaction[] }>(
+          "/transactions"
+        );
+        console.log({ data });
+        setTransactions(data.transactions);
       } catch (err) {
         console.log(err);
       }
@@ -77,28 +80,35 @@ export function TransactionsTable() {
         </Tr>
       </Thead>
       <Tbody>
-        {transactions.map((transaction) => (
-          <Tr key={transaction.id}>
-            <Td bg="white" padding="1rem 2rem">
-              {transaction.title}
-            </Td>
-            <Td
-              bg="white"
-              padding="1rem 2rem"
-              color={transaction.type === "deposit" ? "green.300" : "red.500"}
-            >
-              {transaction.type === "deposit"
-                ? `${transaction.value}`
-                : `-${transaction.value}`}
-            </Td>
-            <Td bg="white" padding="1rem 2rem" color="gray.400">
-              {transaction.category}
-            </Td>
-            <Td bg="white" padding="1rem 2rem" color="gray.400">
-              {format(new Date(transaction.createdAt), "dd/MM/yyyy")}
-            </Td>
-          </Tr>
-        ))}
+        {transactions.map((transaction) => {
+          const formattedAmount = new Intl.NumberFormat("pt-BR", {
+            style: "currency",
+            currency: "BRL",
+          }).format(transaction.amount);
+
+          return (
+            <Tr key={transaction.id}>
+              <Td bg="white" padding="1rem 2rem">
+                {transaction.title}
+              </Td>
+              <Td
+                bg="white"
+                padding="1rem 2rem"
+                color={transaction.type === "deposit" ? "green.300" : "red.500"}
+              >
+                {transaction.type === "deposit"
+                  ? `${formattedAmount}`
+                  : `-${formattedAmount}`}
+              </Td>
+              <Td bg="white" padding="1rem 2rem" color="gray.400">
+                {transaction.category}
+              </Td>
+              <Td bg="white" padding="1rem 2rem" color="gray.400">
+                {format(new Date(transaction.createdAt), "dd/MM/yyyy")}
+              </Td>
+            </Tr>
+          );
+        })}
       </Tbody>
     </Table>
   );
