@@ -1,6 +1,31 @@
 import { Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+import { format } from "date-fns";
+import { api } from "../services/api";
+
+interface ITransaction {
+  id: number;
+  title: string;
+  type: "deposit" | "withdraw";
+  value: string;
+  category: string;
+  createdAt: string;
+}
 
 export function TransactionsTable() {
+  const [transactions, setTransactions] = useState<ITransaction[]>([]);
+
+  useEffect(() => {
+    (async function () {
+      try {
+        const { data } = await api.get<ITransaction[]>("/transactions");
+        setTransactions(data);
+      } catch (err) {
+        console.log(err);
+      }
+    })();
+  }, []);
+
   return (
     <Table
       mt="12"
@@ -52,48 +77,28 @@ export function TransactionsTable() {
         </Tr>
       </Thead>
       <Tbody>
-        <Tr>
-          <Td bg="white" padding="1rem 2rem">
-            Develop a website
-          </Td>
-          <Td bg="white" padding="1rem 2rem">
-            R$ 12.0000
-          </Td>
-          <Td bg="white" padding="1rem 2rem" color="gray.400">
-            Work
-          </Td>
-          <Td bg="white" padding="1rem 2rem" color="gray.400">
-            20/01/2021
-          </Td>
-        </Tr>
-        <Tr>
-          <Td bg="white" padding="1rem 2rem">
-            Hamburger
-          </Td>
-          <Td bg="white" padding="1rem 2rem" color="red">
-            -R$ 59.00
-          </Td>
-          <Td bg="white" padding="1rem 2rem" color="gray.400">
-            Alimentação
-          </Td>
-          <Td bg="white" padding="1rem 2rem" color="gray.400">
-            20/01/2021
-          </Td>
-        </Tr>
-        <Tr>
-          <Td bg="white" padding="1rem 2rem">
-            Develop a website
-          </Td>
-          <Td bg="white" padding="1rem 2rem" color="green.300">
-            R$ 12.0000
-          </Td>
-          <Td bg="white" padding="1rem 2rem" color="gray.400">
-            Work
-          </Td>
-          <Td bg="white" padding="1rem 2rem" color="gray.400">
-            20/01/2021
-          </Td>
-        </Tr>
+        {transactions.map((transaction) => (
+          <Tr key={transaction.id}>
+            <Td bg="white" padding="1rem 2rem">
+              {transaction.title}
+            </Td>
+            <Td
+              bg="white"
+              padding="1rem 2rem"
+              color={transaction.type === "deposit" ? "green.300" : "red.500"}
+            >
+              {transaction.type === "deposit"
+                ? `${transaction.value}`
+                : `-${transaction.value}`}
+            </Td>
+            <Td bg="white" padding="1rem 2rem" color="gray.400">
+              {transaction.category}
+            </Td>
+            <Td bg="white" padding="1rem 2rem" color="gray.400">
+              {format(new Date(transaction.createdAt), "dd/MM/yyyy")}
+            </Td>
+          </Tr>
+        ))}
       </Tbody>
     </Table>
   );
