@@ -49,6 +49,7 @@ export function NewTransactionModal({ onClose }: TransactionModalProps) {
     {
       onSuccess: () => {
         queryClient.invalidateQueries("transactions");
+        onClose();
       },
     }
   );
