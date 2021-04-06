@@ -1,6 +1,7 @@
 import { Button, Flex, Image } from "@chakra-ui/react";
 import logoImg from "../assets/logo.svg";
 import { useModal } from "../hooks/useModal";
+import { NewTransactionModal } from "./NewTransactionModal";
 
 export function Header() {
   const modal = useModal();
@@ -24,7 +25,7 @@ export function Header() {
           borderRadius="1"
           _hover={{ bg: "blue.300", filter: "brightness(0.9)" }}
           _active={{ bg: "blue.300", filter: "brightness(0.9)" }}
-          onClick={() => modal.openModal(<h1>hello world</h1>)}
+          onClick={() => modal.openModal(NewTransactionModal)}
         >
           Nova transação
         </Button>

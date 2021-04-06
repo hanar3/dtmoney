@@ -1,5 +1,6 @@
 import { Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
+import { useQuery } from "react-query";
 import { format } from "date-fns";
 import { api } from "../services/api";
 
@@ -14,19 +15,17 @@ interface ITransaction {
 
 export function TransactionsTable() {
   const [transactions, setTransactions] = useState<ITransaction[]>([]);
-
+  const { isLoading, data, error } = useQuery("transactions", async () =>
+    api.get<{ transactions: ITransaction[] }>("/transactions")
+  );
   useEffect(() => {
-    (async function () {
-      try {
-        const { data } = await api.get<{ transactions: ITransaction[] }>(
-          "/transactions"
-        );
-        setTransactions(data.transactions);
-      } catch (err) {
-        console.log(err);
-      }
-    })();
-  }, []);
+    if (data) {
+      setTransactions(data?.data.transactions);
+    }
+  }, [data]);
+
+  if (isLoading) return <div>Loading</div>;
+  if (error) return <div>Failed to load data</div>;
 
   return (
     <Table

@@ -12,7 +12,7 @@ interface ModalProps {
 
 export const Modal: React.FC<ModalProps> = ({ closeModal, children }) => {
   return (
-    <ChakraModal isOpen onClose={closeModal}>
+    <ChakraModal size="lg" isOpen onClose={closeModal}>
       <ModalOverlay />
       <ModalContent>{children}</ModalContent>
     </ChakraModal>

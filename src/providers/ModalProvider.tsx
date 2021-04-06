@@ -1,24 +1,19 @@
 import React, { createContext, useCallback, useState } from "react";
 import { Modal } from "../components/Modal";
 
+function Component() {
+  return <div />;
+}
+
 export interface ModalContextOptions {
-  openModal: (component: React.ReactNode) => void;
-  closeModal: () => void;
+  openModal: (component: React.ComponentType<{ onClose: () => void }>) => void;
 }
 export const ModalContext = createContext({} as ModalContextOptions);
 
 export const ModalProvider: React.FC = ({ children }) => {
   const [openModals, setOpenModals] = React.useState<{
-    [key: string]: React.ReactNode;
+    [key: string]: React.ComponentType<any>;
   }>({});
-
-  const openModal = useCallback((component: React.ReactNode) => {
-    setOpenModals((prev) => ({ ...prev, [Date.now()]: component }));
-  }, []);
-
-  const closeModal = useCallback(() => {
-    console.log("closeModal");
-  }, []);
 
   const makeCloseModal = (id: string) => {
     return () => {
@@ -30,14 +25,23 @@ export const ModalProvider: React.FC = ({ children }) => {
     };
   };
 
+  const openModal = useCallback((component: React.ComponentType<any>) => {
+    setOpenModals((prev) => ({ ...prev, [Date.now()]: component }));
+  }, []);
+
   return (
-    <ModalContext.Provider value={{ openModal, closeModal }}>
+    <ModalContext.Provider value={{ openModal }}>
       {children}
-      {Object.keys(openModals).map((modal) => (
-        <Modal key={modal} closeModal={makeCloseModal(modal)}>
-          {openModals[modal]}
-        </Modal>
-      ))}
+      {Object.keys(openModals).map((modal) => {
+        const Component = openModals[modal];
+        console.log({ Component });
+
+        return (
+          <Modal key={modal} closeModal={makeCloseModal(modal)}>
+            <Component onClose={makeCloseModal(modal)} />
+          </Modal>
+        );
+      })}
     </ModalContext.Provider>
   );
 };
