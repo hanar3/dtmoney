@@ -1,28 +1,9 @@
 import { Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
-import { useQuery } from "react-query";
 import { format } from "date-fns";
-import { api } from "../services/api";
-
-interface ITransaction {
-  id: number;
-  title: string;
-  type: "deposit" | "withdraw";
-  amount: number;
-  category: string;
-  createdAt: string;
-}
+import { useTransactions } from "../hooks/useTransactions";
 
 export function TransactionsTable() {
-  const [transactions, setTransactions] = useState<ITransaction[]>([]);
-  const { isLoading, data, error } = useQuery("transactions", async () =>
-    api.get<{ transactions: ITransaction[] }>("/transactions")
-  );
-  useEffect(() => {
-    if (data) {
-      setTransactions(data?.data.transactions);
-    }
-  }, [data]);
+  const { error, isLoading, transactions } = useTransactions();
 
   if (isLoading) return <div>Loading</div>;
   if (error) return <div>Failed to load data</div>;

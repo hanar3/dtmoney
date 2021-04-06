@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 
 import theme from "./styles/theme";
 import { ModalProvider } from "./providers/ModalProvider";
+import { TransactionsProvider } from "./providers/TransactionsProvider";
 
 const queryClient = new QueryClient();
 
@@ -13,8 +14,10 @@ export function App() {
     <ChakraProvider theme={theme}>
       <QueryClientProvider client={queryClient}>
         <ModalProvider>
-          <Header />
-          <Dashboard />
+          <TransactionsProvider>
+            <Header />
+            <Dashboard />
+          </TransactionsProvider>
         </ModalProvider>
       </QueryClientProvider>
     </ChakraProvider>

@@ -3,6 +3,10 @@ import ReactDOM from "react-dom";
 import { createServer, Model } from "miragejs";
 import { App } from "./App";
 
+interface ServerSchema {
+  transaction: any;
+}
+
 createServer({
   models: {
     transaction: Model,
@@ -35,12 +39,6 @@ createServer({
     this.namespace = "api";
     this.get("/transactions", () => {
       return this.schema.all("transaction");
-    });
-
-    this.get("/summary", () => {
-      const transactions = this.schema.all("transaction");
-      console.log({ transactions });
-      return transactions;
     });
 
     this.post("/transactions", (schema, request) => {
