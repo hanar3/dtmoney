@@ -1,9 +1,5 @@
-import React, { createContext, useCallback, useState } from "react";
+import React, { createContext, useCallback } from "react";
 import { Modal } from "../components/Modal";
-
-function Component() {
-  return <div />;
-}
 
 export interface ModalContextOptions {
   openModal: (component: React.ComponentType<{ onClose: () => void }>) => void;

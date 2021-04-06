@@ -1,4 +1,3 @@
-import { Button } from "@chakra-ui/button";
 import {
   Modal as ChakraModal,
   ModalContent,

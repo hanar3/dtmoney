@@ -1,7 +1,5 @@
 import { Image } from "@chakra-ui/image";
-import { Box, Flex, Text, Grid, SimpleGrid } from "@chakra-ui/react";
-import { useTransform } from "framer-motion";
-
+import { Box, Flex, SimpleGrid, Text } from "@chakra-ui/react";
 import incomeImg from "../assets/income.svg";
 import outcomeImg from "../assets/outcome.svg";
 import totalImg from "../assets/total.svg";
