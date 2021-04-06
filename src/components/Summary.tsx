@@ -1,5 +1,11 @@
 import { Image } from "@chakra-ui/image";
-import { Box, Flex, SimpleGrid, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  SimpleGrid,
+  Text,
+  useColorModeValue,
+} from "@chakra-ui/react";
 import incomeImg from "../assets/income.svg";
 import outcomeImg from "../assets/outcome.svg";
 import totalImg from "../assets/total.svg";
@@ -7,6 +13,8 @@ import { useTransactions } from "../hooks/useTransactions";
 
 export function Summary() {
   const { transactions } = useTransactions();
+  const boxBg = useColorModeValue("white", "gray.700");
+
   const total = transactions.reduce(
     (acc, transaction) => {
       if (transaction.type === "deposit") {
@@ -28,7 +36,7 @@ export function Summary() {
 
   return (
     <SimpleGrid minChildWidth="300px" spacing="20px" mt="-24">
-      <Box w="100%" bg="white" padding="1.5rem 2rem" borderRadius="4">
+      <Box w="100%" bg={boxBg} padding="1.5rem 2rem" borderRadius="4">
         <Flex as="header" align="center" justify="space-between">
           <Text>Income</Text>
           <Image src={incomeImg} alt="Entradas" />
@@ -46,7 +54,7 @@ export function Summary() {
           }).format(total.income)}
         </Text>
       </Box>
-      <Box w="100%" bg="white" padding="1.5rem 2rem" borderRadius="4">
+      <Box w="100%" bg={boxBg} padding="1.5rem 2rem" borderRadius="4">
         <Flex as="header" align="center" justify="space-between">
           <Text>Outcome</Text>
           <Image src={outcomeImg} alt="Entradas" />
@@ -68,7 +76,7 @@ export function Summary() {
       <Box
         w="100%"
         bg="green.300"
-        color="white"
+        color={boxBg}
         padding="1.5rem 2rem"
         borderRadius="4"
       >

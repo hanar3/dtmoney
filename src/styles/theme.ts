@@ -2,7 +2,7 @@ import { extendTheme } from "@chakra-ui/react";
 
 export default extendTheme({
   config: {
-    initialColorMode: "light",
+    useSystemColorMode: true,
   },
 
   fonts: {
@@ -24,13 +24,13 @@ export default extendTheme({
   },
 
   styles: {
-    global: {
+    global: (props) => ({
       body: {
-        bg: "#E5E5E5",
+        bg: props.colorMode === "dark" ? "gray.800" : "#E5E5E5",
         button: {
           cursor: "pointer",
         },
       },
-    },
+    }),
   },
 });

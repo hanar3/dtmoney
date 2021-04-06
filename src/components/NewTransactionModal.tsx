@@ -9,6 +9,7 @@ import {
   Icon,
   Image,
   theme,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { transparentize } from "polished";
@@ -38,6 +39,10 @@ export function NewTransactionModal({ onClose }: TransactionModalProps) {
   const [type, setType] = useState<"deposit" | "withdraw">("deposit");
   const queryClient = useQueryClient();
 
+  const buttonBg = useColorModeValue("white", "gray.700");
+  const buttonBorderColor = useColorModeValue("gray.200", "gray.600");
+  const buttonTextColor = useColorModeValue("gray.800", "gray.50");
+
   const mutation = useMutation(
     async (variables: TransactionCreate) =>
       await api.post("/transactions", variables),
@@ -56,8 +61,7 @@ export function NewTransactionModal({ onClose }: TransactionModalProps) {
     <Flex w="100" direction="column" p="12">
       <IconButton
         onClick={onClose}
-        bg="white"
-        color="gray.400"
+        colorScheme="blackAlpha"
         aria-label="Close modal"
         position="absolute"
         right="8"
@@ -71,14 +75,14 @@ export function NewTransactionModal({ onClose }: TransactionModalProps) {
       <Stack spacing={3}>
         <Input
           onChange={(e) => setTitle(e.target.value)}
-          bg="gray.100"
+          colorScheme="blackAlpha"
           placeholder="Name"
           py="6"
           fontSize="sm"
         />
         <Input
           onChange={(e) => setAmount(e.target.value)}
-          bg="gray.100"
+          colorScheme="blackAlpha"
           type="number"
           placeholder="Price"
           py="6"
@@ -89,10 +93,11 @@ export function NewTransactionModal({ onClose }: TransactionModalProps) {
             bg={
               type === "deposit"
                 ? transparentize(0.7, theme.colors.green[300])
-                : "white"
+                : buttonBg
             }
+            color={buttonTextColor}
             border="1px solid"
-            borderColor="gray.200"
+            borderColor={buttonBorderColor}
             fontSize="small"
             fontWeight="normal"
             borderRadius="4"
@@ -101,16 +106,18 @@ export function NewTransactionModal({ onClose }: TransactionModalProps) {
             leftIcon={<Icon as={IncomeIcon} />}
             onClick={() => setType("deposit")}
           >
-            income
+            Income
           </Button>
           <Button
+            colorScheme="blackAlpha"
+            color={buttonTextColor}
+            border="1px solid"
+            borderColor={buttonBorderColor}
             bg={
               type === "withdraw"
                 ? transparentize(0.7, theme.colors.red[300])
-                : "white"
+                : buttonBg
             }
-            border="1px solid"
-            borderColor="gray.200"
             fontSize="small"
             fontWeight="normal"
             borderRadius="4"
@@ -124,7 +131,7 @@ export function NewTransactionModal({ onClose }: TransactionModalProps) {
         </HStack>
         <Input
           onChange={(e) => setCategory(e.target.value)}
-          bg="gray.100"
+          colorScheme="blackAlpha"
           placeholder="Category"
           py="6"
           fontSize="sm"

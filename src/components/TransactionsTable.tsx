@@ -1,9 +1,18 @@
-import { Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react";
+import {
+  Table,
+  Tbody,
+  Td,
+  Th,
+  Thead,
+  Tr,
+  useColorModeValue,
+} from "@chakra-ui/react";
 import { format } from "date-fns";
 import { useTransactions } from "../hooks/useTransactions";
 
 export function TransactionsTable() {
   const { error, isLoading, transactions } = useTransactions();
+  const bg = useColorModeValue("white", "gray.700");
 
   if (isLoading) return <div>Loading</div>;
   if (error) return <div>Failed to load data</div>;
@@ -67,11 +76,11 @@ export function TransactionsTable() {
 
           return (
             <Tr key={transaction.id}>
-              <Td bg="white" padding="1rem 2rem">
+              <Td bg={bg} padding="1rem 2rem">
                 {transaction.title}
               </Td>
               <Td
-                bg="white"
+                bg={bg}
                 padding="1rem 2rem"
                 color={transaction.type === "deposit" ? "green.300" : "red.500"}
               >
@@ -79,10 +88,10 @@ export function TransactionsTable() {
                   ? `${formattedAmount}`
                   : `-${formattedAmount}`}
               </Td>
-              <Td bg="white" padding="1rem 2rem" color="gray.400">
+              <Td bg={bg} padding="1rem 2rem" color="gray.400">
                 {transaction.category}
               </Td>
-              <Td bg="white" padding="1rem 2rem" color="gray.400">
+              <Td bg={bg} padding="1rem 2rem" color="gray.400">
                 {format(new Date(transaction.createdAt), "dd/MM/yyyy")}
               </Td>
             </Tr>
