@@ -32,7 +32,7 @@ export function Summary() {
     <SimpleGrid minChildWidth="300px" spacing="20px" mt="-24">
       <Box w="100%" bg="white" padding="1.5rem 2rem" borderRadius="4">
         <Flex as="header" align="center" justify="space-between">
-          <Text>Entradas</Text>
+          <Text>Income</Text>
           <Image src={incomeImg} alt="Entradas" />
         </Flex>
         <Text
@@ -50,7 +50,7 @@ export function Summary() {
       </Box>
       <Box w="100%" bg="white" padding="1.5rem 2rem" borderRadius="4">
         <Flex as="header" align="center" justify="space-between">
-          <Text>Saídas</Text>
+          <Text>Outcome</Text>
           <Image src={outcomeImg} alt="Entradas" />
         </Flex>
         <Text

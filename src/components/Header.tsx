@@ -27,7 +27,7 @@ export function Header() {
           _active={{ bg: "blue.300", filter: "brightness(0.9)" }}
           onClick={() => modal.openModal(NewTransactionModal)}
         >
-          Nova transação
+          New transaction
         </Button>
       </Flex>
     </Flex>
