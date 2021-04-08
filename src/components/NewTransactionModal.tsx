@@ -14,10 +14,10 @@ import {
 import { useState } from "react";
 import { transparentize } from "polished";
 import { FaTimes } from "react-icons/fa";
-import { useMutation, useQueryClient } from "react-query";
+import { gql, useMutation } from "@apollo/client";
 import incomeImg from "../assets/income.svg";
 import outcomeImg from "../assets/outcome.svg";
-import { api } from "../services/api";
+import { CREATE_TRANSACTION } from "../queries/transactions";
 interface TransactionModalProps {
   onClose: () => void;
 }
@@ -37,25 +37,49 @@ export function NewTransactionModal({ onClose }: TransactionModalProps) {
   const [amount, setAmount] = useState("");
   const [category, setCategory] = useState("");
   const [type, setType] = useState<"deposit" | "withdraw">("deposit");
-  const queryClient = useQueryClient();
 
   const buttonBg = useColorModeValue("white", "gray.700");
   const buttonBorderColor = useColorModeValue("gray.200", "gray.600");
   const buttonTextColor = useColorModeValue("gray.800", "gray.50");
 
-  const mutation = useMutation(
-    async (variables: TransactionCreate) =>
-      await api.post("/transactions", variables),
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries("transactions");
-        onClose();
-      },
-    }
-  );
+  const [createTransaction] = useMutation(CREATE_TRANSACTION, {
+    update(cache, { data: { createTransaction } }) {
+      cache.modify({
+        fields: {
+          transactions(existingTransactions = []) {
+            const newTransactionRef = cache.writeFragment({
+              data: createTransaction,
+              fragment: gql`
+                fragment NewTransaction on Transaction {
+                  id
+                  type
+                  category
+                  title
+                  amount
+                  createdAt
+                }
+              `,
+            });
+
+            return [...existingTransactions, newTransactionRef];
+          },
+        },
+      });
+    },
+  });
 
   const handleSubmit = () => {
-    mutation.mutate({ title, amount: Number(amount), category, type });
+    const deviceId = localStorage.getItem("@Core/deviceId");
+
+    createTransaction({
+      variables: {
+        deviceId,
+        title,
+        amount: Number(amount),
+        category,
+        type,
+      },
+    });
   };
 
   return (

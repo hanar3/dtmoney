@@ -1,6 +1,6 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
-import { useQuery } from "react-query";
-import { api } from "../services/api";
+import { useQuery } from "@apollo/client";
+import { LIST_TRANSACTIONS } from "../queries/transactions";
 
 interface ITransaction {
   id: number;
@@ -27,17 +27,22 @@ interface TransactionProviderProps {
 
 export function TransactionsProvider({ children }: TransactionProviderProps) {
   const [transactions, setTransactions] = useState<ITransaction[]>([]);
-  const { isLoading, data, error } = useQuery("transactions", async () =>
-    api.get<{ transactions: ITransaction[] }>("/transactions")
-  );
+  const deviceId = localStorage.getItem("@Core/deviceId");
+
+  const { loading, error, data } = useQuery(LIST_TRANSACTIONS, {
+    variables: { deviceId },
+  });
+
   useEffect(() => {
     if (data) {
-      setTransactions(data?.data.transactions);
+      setTransactions(data?.transactions);
     }
   }, [data]);
 
   return (
-    <TransactionContext.Provider value={{ transactions, isLoading, error }}>
+    <TransactionContext.Provider
+      value={{ transactions, isLoading: loading, error }}
+    >
       {children}
     </TransactionContext.Provider>
   );
