@@ -1,4 +1,4 @@
-# anime-library
+# dtmoney
 
 ![Badge](https://img.shields.io/badge/DTMoney%20Library-Keep%20%20track%20of%20your%expenses-%237159c1?style=for-the-badge&logo=ghost)
 
@@ -11,7 +11,7 @@ Content Table
 <!--te-->
 
 <h4 align="center"> 
-	🚧  Anime Library 🚀 Under development...  🚧
+  dtmoney 
 </h4>
 
 
