@@ -1,3 +1,5 @@
+![dtmoney-app](https://user-images.githubusercontent.com/76849258/114105450-230bd000-98a3-11eb-90e5-f2621adc204c.png)
+
 # dtmoney
 ![Badge](https://img.shields.io/badge/dtmoney-Keep%20%20track%20of%20your%20expenses-%237159c1?style=for-the-badge&logo=ghost)
 
@@ -12,7 +14,6 @@ Content Table
 <h4 align="center"> 
   dtmoney 
 </h4>
-![dtmoney-app](https://user-images.githubusercontent.com/76849258/114105450-230bd000-98a3-11eb-90e5-f2621adc204c.png)
 
 ### About
 DTMoney is a fully functioning expense tracking WebApp
