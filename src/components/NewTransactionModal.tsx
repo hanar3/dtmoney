@@ -22,13 +22,6 @@ interface TransactionModalProps {
   onClose: () => void;
 }
 
-interface TransactionCreate {
-  title: string;
-  amount: number;
-  category: string;
-  type: string;
-}
-
 const IncomeIcon = () => <Image src={incomeImg} maxW="20px" />;
 const OutgoingIcon = () => <Image src={outcomeImg} maxW="20px" />;
 
