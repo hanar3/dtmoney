@@ -3,7 +3,7 @@ import { useQuery } from "@apollo/client";
 import { LIST_TRANSACTIONS } from "../queries/transactions";
 
 interface ITransaction {
-  id: number;
+  id: string;
   title: string;
   type: "deposit" | "withdraw";
   amount: number;

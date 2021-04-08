@@ -35,3 +35,42 @@ export const CREATE_TRANSACTION = gql`
     }
   }
 `;
+
+export const DELETE_TRANSACTION = gql`
+  mutation deleteTransaction($transactionId: String!) {
+    deleteTransaction(transactionId: $transactionId) {
+      ... on TransactionNotFound {
+        code
+        message
+      }
+
+      ... on TransactionType {
+        id
+      }
+    }
+  }
+`;
+
+export const UPDATE_TRANSACTION = gql`
+  mutation updateTransaction(
+    $id: String!
+    $amount: Float
+    $title: String
+    $category: String
+    $type: String
+  ) {
+    updateTransaction(
+      id: $id
+      updateFields: {
+        amount: $amount
+        title: $title
+        category: $category
+        type: $type
+      }
+    ) {
+      ... on TransactionType {
+        id
+      }
+    }
+  }
+`;

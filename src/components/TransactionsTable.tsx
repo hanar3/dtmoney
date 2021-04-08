@@ -12,10 +12,15 @@ import {
 } from "@chakra-ui/react";
 import { format } from "date-fns";
 import { FiEdit, FiTrash } from "react-icons/fi";
+import { useModal } from "../hooks/useModal";
 import { useTransactions } from "../hooks/useTransactions";
+import { DeleteTransactionModal } from "./DeleteTransactionModal";
+import { EditTransactionModal } from "./EditTransactionModal";
 
 export function TransactionsTable() {
   const { error, isLoading, transactions } = useTransactions();
+  const modal = useModal();
+
   const bg = useColorModeValue("white", "gray.700");
 
   if (isLoading) return <div>Loading</div>;
@@ -113,12 +118,28 @@ export function TransactionsTable() {
                   <IconButton
                     color="red.300"
                     aria-label="delete"
+                    onClick={() =>
+                      modal.openModal(({ onClose }) => (
+                        <DeleteTransactionModal
+                          onClose={onClose}
+                          transaction={transaction}
+                        />
+                      ))
+                    }
                     icon={<Icon as={FiTrash} />}
                   />
                   <IconButton
-                    color="red.300"
+                    color="gray.300"
                     aria-label="Edit"
                     icon={<Icon as={FiEdit} />}
+                    onClick={() =>
+                      modal.openModal(({ onClose }) => (
+                        <EditTransactionModal
+                          onClose={onClose}
+                          transaction={transaction}
+                        />
+                      ))
+                    }
                   />
                 </HStack>
               </Td>

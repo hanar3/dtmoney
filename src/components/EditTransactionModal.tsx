@@ -14,47 +14,62 @@ import {
 import { useState } from "react";
 import { transparentize } from "polished";
 import { FaTimes } from "react-icons/fa";
-import { gql, useMutation } from "@apollo/client";
+import { gql, StoreObject, useMutation } from "@apollo/client";
 import incomeImg from "../assets/income.svg";
 import outcomeImg from "../assets/outcome.svg";
-import { CREATE_TRANSACTION } from "../queries/transactions";
+import { UPDATE_TRANSACTION } from "../queries/transactions";
+
+interface ITransaction {
+  id: string;
+  title: string;
+  type: "deposit" | "withdraw";
+  amount: number;
+  category: string;
+  createdAt: string;
+}
+
 interface TransactionModalProps {
+  transaction: ITransaction;
   onClose: () => void;
 }
 
 const IncomeIcon = () => <Image src={incomeImg} maxW="20px" />;
 const OutgoingIcon = () => <Image src={outcomeImg} maxW="20px" />;
 
-export function NewTransactionModal({ onClose }: TransactionModalProps) {
-  const [title, setTitle] = useState("");
-  const [amount, setAmount] = useState("");
-  const [category, setCategory] = useState("");
-  const [type, setType] = useState<"deposit" | "withdraw">("deposit");
+export function EditTransactionModal({
+  onClose,
+  transaction,
+}: TransactionModalProps) {
+  const [title, setTitle] = useState(transaction.title);
+  const [amount, setAmount] = useState(transaction.amount);
+  const [category, setCategory] = useState(transaction.category);
+  const [type, setType] = useState<"deposit" | "withdraw">(transaction.type);
 
   const buttonBg = useColorModeValue("white", "gray.700");
   const buttonBorderColor = useColorModeValue("gray.200", "gray.600");
   const buttonTextColor = useColorModeValue("gray.800", "gray.50");
-
-  const [createTransaction] = useMutation(CREATE_TRANSACTION, {
-    update(cache, { data: { createTransaction } }) {
+  const [updateTransaction] = useMutation(UPDATE_TRANSACTION, {
+    update(cache) {
       cache.modify({
         fields: {
-          transactions(existingTransactions = []) {
-            const newTransactionRef = cache.writeFragment({
-              data: createTransaction,
+          transactions() {
+            cache.writeFragment({
+              id: cache.identify((transaction as unknown) as StoreObject),
               fragment: gql`
-                fragment NewTransaction on Transaction {
-                  id
-                  type
-                  category
+                fragment MyTransaction on Transaction {
                   title
                   amount
-                  createdAt
+                  category
+                  type
                 }
               `,
+              data: {
+                title,
+                amount,
+                category,
+                type,
+              },
             });
-
-            return [...existingTransactions, newTransactionRef];
           },
         },
       });
@@ -64,9 +79,10 @@ export function NewTransactionModal({ onClose }: TransactionModalProps) {
   const handleSubmit = () => {
     const deviceId = localStorage.getItem("@Core/deviceId");
 
-    createTransaction({
+    updateTransaction({
       variables: {
-        deviceId,
+        id: transaction.id,
+        // deviceId,
         title,
         amount: Number(amount),
         category,
@@ -90,18 +106,20 @@ export function NewTransactionModal({ onClose }: TransactionModalProps) {
       />
 
       <Text fontWeight="bold" mb="6" fontSize="larger">
-        New Transaction
+        Update Transaction
       </Text>
       <Stack spacing={3}>
         <Input
           onChange={(e) => setTitle(e.target.value)}
+          value={title}
           colorScheme="blackAlpha"
           placeholder="Name"
           py="6"
           fontSize="sm"
         />
         <Input
-          onChange={(e) => setAmount(e.target.value)}
+          onChange={(e) => setAmount(Number(e.target.value))}
+          value={amount}
           colorScheme="blackAlpha"
           type="number"
           placeholder="Price"
@@ -151,6 +169,7 @@ export function NewTransactionModal({ onClose }: TransactionModalProps) {
         </HStack>
         <Input
           onChange={(e) => setCategory(e.target.value)}
+          value={category}
           colorScheme="blackAlpha"
           placeholder="Category"
           py="6"
