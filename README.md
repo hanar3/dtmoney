@@ -1,7 +1,5 @@
 # dtmoney
 
-![Badge](https://img.shields.io/badge/DTMoney%20Library-Keep%20%20track%20of%20your%expenses-%237159c1?style=for-the-badge&logo=ghost)
-
 Content Table
 =================
 <!--ts-->
@@ -61,4 +59,4 @@ The following tools were used to build this project:
 
 - [TypeScript](https://www.typescriptlang.org/)
 - [Apollo Client](apollographql.com/)
-- [Chakra UI] (https://chakra-ui.com/)
+- [Chakra UI](https://chakra-ui.com/)
