@@ -1,4 +1,7 @@
 import {
+  HStack,
+  Icon,
+  IconButton,
   Table,
   Tbody,
   Td,
@@ -8,6 +11,7 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { format } from "date-fns";
+import { FiEdit, FiTrash } from "react-icons/fi";
 import { useTransactions } from "../hooks/useTransactions";
 
 export function TransactionsTable() {
@@ -65,6 +69,16 @@ export function TransactionsTable() {
           >
             Date
           </Th>
+          <Th
+            border="0"
+            color="gray.500"
+            fontSize="16"
+            fontWeight="normal"
+            padding="1rem 2rem"
+            textAlign="left"
+          >
+            Actions
+          </Th>
         </Tr>
       </Thead>
       <Tbody>
@@ -93,6 +107,20 @@ export function TransactionsTable() {
               </Td>
               <Td bg={bg} padding="1rem 2rem" color="gray.400">
                 {format(new Date(transaction.createdAt), "dd/MM/yyyy")}
+              </Td>
+              <Td bg={bg} padding="1rem 2rem" color="gray.400">
+                <HStack>
+                  <IconButton
+                    color="red.300"
+                    aria-label="delete"
+                    icon={<Icon as={FiTrash} />}
+                  />
+                  <IconButton
+                    color="red.300"
+                    aria-label="Edit"
+                    icon={<Icon as={FiEdit} />}
+                  />
+                </HStack>
               </Td>
             </Tr>
           );
