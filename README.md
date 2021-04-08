@@ -1,4 +1,5 @@
 # dtmoney
+![Badge](https://img.shields.io/badge/dtmoney-Keep%20%20track%20of%20your%20expenses-%237159c1?style=for-the-badge&logo=ghost)
 
 Content Table
 =================
@@ -17,7 +18,7 @@ Content Table
 DTMoney is a fully functioning expense tracking WebApp
 
 ### Features
-- [x] GraphQL API -  See [dtmoney-server](https://github.com/hanar3/dtmoney-server)
+- [x] GraphQL API -  See [dtmoney-server](https://github.com/hanar3/dtmoney-graphql-server)
 - [x] Dark and Light themes
 - [x] User identification via deviceId
 - [x] Transaction CRUD
