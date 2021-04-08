@@ -2,7 +2,7 @@ import { gql } from "@apollo/client";
 
 export const LIST_TRANSACTIONS = gql`
   query listTransactions($deviceId: String!) {
-    transactions(input: { deviceId: $deviceId }) {
+    transactions(deviceId: $deviceId) {
       id
       deviceId
       type
