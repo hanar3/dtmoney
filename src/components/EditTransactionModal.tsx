@@ -77,12 +77,9 @@ export function EditTransactionModal({
   });
 
   const handleSubmit = () => {
-    const deviceId = localStorage.getItem("@Core/deviceId");
-
     updateTransaction({
       variables: {
         id: transaction.id,
-        // deviceId,
         title,
         amount: Number(amount),
         category,
